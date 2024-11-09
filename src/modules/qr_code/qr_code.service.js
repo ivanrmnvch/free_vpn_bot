@@ -1,8 +1,5 @@
 const { logInfo, logError } = require('../../utils/logger');
 const { generateQRCode } = require('../qr_code/helpers');
-const {
-	app: { ANDROID_APP_URL, IOS_APP_URL },
-} = require('../../config/envConfig');
 const { InlineKeyboard } = require('grammy');
 
 const label = 'qrCode';
@@ -27,9 +24,9 @@ const getQRCode = async (ctx, code) => {
 		await ctx.replyWithPhoto(qrCode, {
 			caption: ctx.getLangText('qrCode.description'),
 			reply_markup: new InlineKeyboard()
-				.url(ctx.getLangText('qrCode.os.android'), ANDROID_APP_URL)
+				.url(ctx.getLangText('qrCode.os.android'), process.env.ANDROID_APP_URL)
 				.row()
-				.url(ctx.getLangText('qrCode.os.ios'), IOS_APP_URL)
+				.url(ctx.getLangText('qrCode.os.ios'), process.env.IOS_APP_URL)
 				.row()
 				.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu')
 				.text(

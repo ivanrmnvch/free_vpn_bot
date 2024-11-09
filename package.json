@@ -4,6 +4,7 @@
   "description": "telegram vpn-shop bot",
   "main": "index.js",
   "scripts": {
+    "dev": "cd src && npx nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +13,7 @@
     "axios": "^1.7.7",
     "chalk": "^5.3.0",
     "grammy": "^1.30.0",
+    "nodemon": "^3.1.7",
     "winston": "^3.15.0"
   },
   "devDependencies": {

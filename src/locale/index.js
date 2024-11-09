@@ -1,4 +1,4 @@
-const ru = require('./ru/start');
+const ru = require('./ru');
 const en = require('./en');
 
 module.exports = {
