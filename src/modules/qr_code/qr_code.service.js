@@ -5,11 +5,18 @@ const { InlineKeyboard } = require('grammy');
 const label = 'qrCode';
 
 /** Метод получения QR кода */
-const getQRCode = async (ctx, code) => {
+const getQRCode = async (ctx) => {
 	logInfo('Getting QR code', label, ctx);
+	const { server, os } = ctx.session.steps;
+
+	if (!(server && os)) {
+		// todo вывести сообщение, что закончилось время
+		//  ожидания ответа, повторите процедуру получения VPN + кнопка: главное меню
+		return;
+	}
 
 	const { id } = Object.values(ctx.update).pop().from;
-	const qrCode = await generateQRCode(id, code);
+	const qrCode = await generateQRCode(id, server);
 
 	if (!qrCode) {
 		await ctx.answerCallbackQuery({
@@ -22,11 +29,16 @@ const getQRCode = async (ctx, code) => {
 	try {
 		logInfo('Send qr code', label, ctx);
 		await ctx.replyWithPhoto(qrCode, {
-			caption: ctx.getLangText('qrCode.description'),
+			caption: ctx.getLangText('qrCode.description', {
+				server: ctx.getLangText(`common.countries.${server}`),
+			}),
 			reply_markup: new InlineKeyboard()
-				.url(ctx.getLangText('qrCode.os.android'), process.env.ANDROID_APP_URL)
-				.row()
-				.url(ctx.getLangText('qrCode.os.ios'), process.env.IOS_APP_URL)
+				.url(
+					ctx.getLangText(`qrCode.app.${os}`),
+					os === 'android'
+						? process.env.ANDROID_APP_URL
+						: process.env.IOS_APP_URL
+				)
 				.row()
 				.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu')
 				.text(

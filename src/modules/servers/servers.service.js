@@ -2,6 +2,7 @@ const { logInfo, logError } = require('../../utils/logger');
 const { API } = require('../../utils/api');
 const { InlineKeyboard } = require('grammy');
 const qrCodeService = require('../qr_code/qr_code.service');
+const osService = require('../os/os.service');
 const notify = require('./helpers/notify');
 
 const label = 'Servers';
@@ -82,15 +83,19 @@ const getServer = async (ctx) => {
 	const { data } = ctx.update.callback_query;
 	const name = data.split(':').pop();
 
-	try {
-		await ctx.deleteMessage();
-		await ctx.answerCallbackQuery();
-	} catch (e) {
-		logError('Message editing error', label, e);
-		return;
-	}
+	// todo удалять сообщение перед отправкой qr кода
+	// try {
+	// 	await ctx.deleteMessage();
+	// 	await ctx.answerCallbackQuery();
+	// } catch (e) {
+	// 	logError('Message editing error', label, e);
+	// 	return;
+	// }
 
-	await qrCodeService.getQRCode(ctx, name);
+	ctx.session.steps.server = name;
+
+	await osService.getOSList(ctx);
+	// await qrCodeService.getQRCode(ctx, name);
 };
 
 const getServerListWrap = async (ctx) => {

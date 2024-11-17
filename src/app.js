@@ -1,6 +1,4 @@
-const { Bot,
-	// session
-} = require('grammy');
+const { Bot, session } = require('grammy');
 
 const { logError } = require('./utils/logger');
 
@@ -16,7 +14,7 @@ const bot = new Bot(token);
 // todo
 // start -> получить ключ -> выберите сервер -> qr-code + android, ios
 
-// bot.use(session());
+bot.use(session({ initial: () => ({ steps: { server: null, os: null } }) }));
 
 bot.use(init);
 bot.command('start', start);
