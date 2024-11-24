@@ -46,7 +46,10 @@ const start = async (ctx) => {
 		} = Object.values(ctx.update).pop().from;
 
 		await API.post('user', {
-			id, firstName, userName, lang
+			id,
+			firstName,
+			userName,
+			lang,
 		});
 	} catch (e) {
 		logError('Error update user', label, e);

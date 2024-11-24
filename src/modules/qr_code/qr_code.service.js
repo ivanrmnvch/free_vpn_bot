@@ -8,6 +8,7 @@ const label = 'qrCode';
 const getQRCode = async (ctx) => {
 	logInfo('Getting QR code', label, ctx);
 	const { server, os } = ctx.session.steps;
+	console.log('step', ctx.session.steps);
 
 	if (!(server && os)) {
 		// todo вывести сообщение, что закончилось время
@@ -15,6 +16,7 @@ const getQRCode = async (ctx) => {
 		return;
 	}
 
+	const countryCode = server.slice(0, 2);
 	const { id } = Object.values(ctx.update).pop().from;
 	const qrCode = await generateQRCode(id, server);
 
@@ -27,24 +29,25 @@ const getQRCode = async (ctx) => {
 	}
 
 	try {
+	} catch (e) {}
+
+	try {
 		logInfo('Send qr code', label, ctx);
 		await ctx.replyWithPhoto(qrCode, {
 			caption: ctx.getLangText('qrCode.description', {
-				server: ctx.getLangText(`common.countries.${server}`),
+				server: ctx.getLangText(`common.countries.${countryCode}`),
 			}),
 			reply_markup: new InlineKeyboard()
 				.url(
-					ctx.getLangText(`qrCode.app.${os}`),
+					ctx.getLangText('qrCode.downloadApp'),
 					os === 'android'
 						? process.env.ANDROID_APP_URL
 						: process.env.IOS_APP_URL
 				)
 				.row()
-				.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu')
-				.text(
-					ctx.getLangText('common.buttons.changeServer'),
-					'back_to_server_menu'
-				),
+				.text(ctx.getLangText('common.buttons.back'), 'back_to_os_menu')
+				.row()
+				.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu'),
 		});
 	} catch (e) {
 		logError('Sending qr code error', label, e);

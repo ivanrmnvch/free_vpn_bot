@@ -1,7 +1,8 @@
-init:
+init-folders:
 	mkdir logs \
 	&& echo "" > logs/combined.log \
-	&& echo "" > logs/error.log \
-	&& echo "" > logs/transaction.log \
-	&& npm i
+	&& echo "" > logs/error.log
+
+copy-env:
+	cp .env.example .env
 
