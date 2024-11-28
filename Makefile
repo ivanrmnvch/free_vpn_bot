@@ -1,4 +1,4 @@
-TG_BOT = tg_bot
+TG_BOT = tg-bot
 
 init-folders:
 	mkdir logs \
