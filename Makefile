@@ -1,7 +1,7 @@
 TG_BOT = tg-bot
 
 init-folders:
-	mkdir logs \
+	mkdir -p logs/tg-bot \
 	&& echo "" > logs/tg-bot/combined.log \
 	&& echo "" > logs/tg-bot/error.log
 
