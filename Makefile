@@ -2,8 +2,8 @@ TG_BOT = tg-bot
 
 init-folders:
 	mkdir logs \
-	&& echo "" > logs/combined.log \
-	&& echo "" > logs/error.log
+	&& echo "" > logs/tg-bot/combined.log \
+	&& echo "" > logs/tg-bot/error.log
 
 copy-env:
 	cp .env.example .env
