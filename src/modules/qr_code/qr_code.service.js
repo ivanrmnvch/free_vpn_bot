@@ -1,6 +1,7 @@
 const { logInfo, logError } = require('../../utils/logger');
 const { generateQRCode } = require('../qr_code/helpers');
 const { InlineKeyboard } = require('grammy');
+const { API } = require('../../utils/api');
 
 const label = 'qrCode';
 
@@ -29,7 +30,15 @@ const getQRCode = async (ctx) => {
 	}
 
 	try {
-	} catch (e) {}
+		await API.post('xray-manager/client', { id });
+	} catch (e) {
+		// todo ошибка добавления пользователя
+		await ctx.answerCallbackQuery({
+			show_alert: true,
+			text: ctx.getLangText('qrCode.errors.generate'),
+		});
+		return;
+	}
 
 	try {
 		logInfo('Send qr code', label, ctx);
