@@ -30,7 +30,9 @@ const getQRCode = async (ctx) => {
 	}
 
 	try {
+		console.log('>>> test123');
 		await API.post('xray-manager/client', { id });
+		console.log('>>> test321');
 	} catch (e) {
 		// todo ошибка добавления пользователя
 		await ctx.answerCallbackQuery({
