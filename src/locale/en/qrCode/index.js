@@ -1,11 +1,9 @@
 module.exports = {
-  description: 'Отсканируйте ваш QR-код в приложении для подключения к VPN серверу',
-  os: {
-    android: 'Android',
-    ios: 'iOS',
-  },
-  errors: {
-    generate: 'Ошибка генерации QR кода, попробуйте повторить попытку позже',
-    sending: 'Ошибка при отправке QR кода, попробуйте повторить попытку позже',
-  }
+	description:
+		'Scan your QR code in the app to connect to the VPN server #{server}',
+	downloadApp: 'Download the app',
+	errors: {
+		generate: 'Error generating QR code, please try again later',
+		sending: 'Error sending QR code, try again later',
+	},
 };

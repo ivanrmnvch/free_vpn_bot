@@ -1,4 +1,4 @@
-const { InlineKeyboard } = require('grammy');
+const { InlineKeyboard, GrammyError } = require('grammy');
 const { logInfo, logError } = require('../../utils/logger');
 const { API } = require('../../utils/api');
 
@@ -54,7 +54,7 @@ const start = async (ctx) => {
 	} catch (e) {
 		logError('Error update user', label, e);
 		// todo test должно выкинуть в global
-		throw new Error();
+		// throw new GrammyError.Error();
 	}
 
 	await ctx.reply(ctx.getLangText('start.title'), {
