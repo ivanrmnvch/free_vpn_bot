@@ -1,7 +1,16 @@
-init:
-	mkdir logs \
-	&& echo "" > logs/combined.log \
-	&& echo "" > logs/error.log \
-	&& echo "" > logs/transaction.log \
-	&& npm i
+TG_BOT = tg-bot
+
+init-folders:
+	mkdir -p logs/tg-bot \
+	&& echo "" > logs/tg-bot/combined.log \
+	&& echo "" > logs/tg-bot/error.log
+
+copy-env:
+	cp .env.example .env
+
+build-dev:
+	APP_MODE=development docker compose build --no-cache $(TG_BOT)
+
+dev:
+	APP_MODE=development docker compose up --watch $(TG_BOT)
 

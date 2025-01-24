@@ -1,0 +1,29 @@
+services:
+  tg-bot:
+    build:
+      dockerfile: ./Dockerfile
+    image: tg-bot:latest
+    container_name: tg-bot
+    ports:
+      - "80:80"
+    env_file:
+      - ./.env
+    volumes:
+      - ./logs/tg-bot/combined.log:/tg-bot/logs/combined.log
+      - ./logs/tg-bot/error.log:/tg-bot/logs/error.log
+    #    depends_on:
+    ## api-gateway: todo добавить healthcheck
+    ## todo добавить watch для dev разработки
+    develop:
+      watch:
+        - path: ./package.json
+          action: rebuild
+        - path: ./src
+          target: /tg-bot/src
+          action: sync
+    networks:
+      - xray_vpn_services_network
+
+networks:
+  xray_vpn_services_network:
+    external: true

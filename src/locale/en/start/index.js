@@ -1,4 +1,4 @@
 module.exports = {
-	title: 'Free VPN bot',
-	getVpnKey: 'Получить VPN ключ',
+	title: '🔒 Free VPN',
+	getVpnKey: '🔑 Get the key',
 };

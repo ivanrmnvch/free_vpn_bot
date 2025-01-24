@@ -2,16 +2,27 @@ const { InlineKeyboard } = require('grammy');
 const { getQRCode } = require('../qr_code/qr_code.service');
 const { logInfo, logError } = require('../../utils/logger');
 
+const label = 'os';
+
 const getOSList = async (ctx) => {
+	// const buttons = new InlineKeyboard()
+	// 	.text(ctx.getLangText('os.android'), 'os:android')
+	// 	.text(ctx.getLangText('os.ios'), 'os:ios')
+	// 	.row()
+	// 	.text(ctx.getLangText('os.windows'), 'os:windows')
+	// 	.text(ctx.getLangText('os.macos'), 'os:macos')
+	// 	.row()
+	// 	.text(ctx.getLangText('os.linux'), 'os:linux')
+	// 	.text(ctx.getLangText('common.buttons.changeServer'), 'back_to_server_menu')
+	// 	.row()
+	// 	.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu');
+
 	const buttons = new InlineKeyboard()
 		.text(ctx.getLangText('os.android'), 'os:android')
+		.row()
 		.text(ctx.getLangText('os.ios'), 'os:ios')
 		.row()
-		.text(ctx.getLangText('os.windows'), 'os:windows')
-		.text(ctx.getLangText('os.macos'), 'os:macos')
-		.row()
-		.text(ctx.getLangText('os.linux'), 'os:linux')
-		.text(ctx.getLangText('common.buttons.changeServer'), 'back_to_server_menu')
+		.text(ctx.getLangText('common.buttons.back'), 'back_to_server_menu')
 		.row()
 		.text(ctx.getLangText('common.buttons.mainMenu'), 'back_to_main_menu');
 
@@ -47,10 +58,19 @@ const getOSList = async (ctx) => {
 };
 
 const setOS = async (ctx) => {
+	console.log('ctx', ctx);
 	const { data } = ctx.update.callback_query;
 	const os = data.split(':').pop();
 
-	// ctx.session.steps.os = os;
+	ctx.session.steps.os = os;
+
+	try {
+		await ctx.deleteMessage();
+		await ctx.answerCallbackQuery();
+	} catch (e) {
+		logError('Message editing error', label, e);
+		return;
+	}
 
 	if (['android', 'ios'].includes(os)) {
 		await getQRCode(ctx);

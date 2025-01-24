@@ -7,7 +7,6 @@ module.exports = {
 		mainMenu: '↪️ Главное меню',
 		changeServer: '🌐 Изменить сервер',
 		changeOS: '💾 Изменить ОС',
-		downloadApp: '🖱️ Скачать приложение',
 		download: '🖱️ Скачать #{app}',
 		otherApps: '💿 Другие приложения',
 	},
